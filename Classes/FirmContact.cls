@@ -37,16 +37,16 @@ Public Function Key() As String
 End Function
 
 Public Property Get AbteilungAbbrev() As String
-    'entweder von der Abteilung innerhalb eQOS-Deutschland
-    'oder von externer Firma die AbkÃ¼rzung
+    'entweder von der Abteilung innerhalb der Firma
+    'oder von externer Firma die Abkürzung
     'momentan noch keine Abteilung da
     Dim s As String: s = Company.Abbrev
     If Len(s) = 0 Then
-        '"LPL", "STK", "KON"
         '? was noch?
     End If
     AbteilungAbbrev = s
 End Property
+
 Friend Function ToStr() As String
     ToStr = Me.Name & vbTab & Me.Tel & vbTab & Me.Mob & vbTab & Me.Email '& vbCrLf
 End Function

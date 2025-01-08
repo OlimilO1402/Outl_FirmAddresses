@@ -3,16 +3,6 @@ Option Explicit
 'eine Datei speichern in der alle "FirmenKürzel", "Nachname", "Vorname", "Emailadresse"
 'Infos anschließend aus Datei holen
 
-'Sub TestLike()
-'                                                            'key = "EAT"
-'    Dim nam As String: nam = "EQOS Energie Österreich GmbH"
-'    Dim key As String: key = Trim(LCase(nam))
-'
-'    If key Like "?Österreich?" Then
-'        MsgBox "OK key is like " & key
-'    End If
-'
-'End Sub
 Sub AusgewaehlteMailsInOrdnerKopieren()
 Try: On Error GoTo Catch
     If Firm Is Nothing Then
@@ -26,45 +16,18 @@ Try: On Error GoTo Catch
         MsgBox "Keine Emails gewählt. Bitte zuerst Emails auswählen!"
         Exit Sub
     End If
-    'Else
-    'Dim s As String: s =
-    'dim
-    'ParseSelectedMails (SelectedMails)
-    'Debug.Print s
     
-    'Exit Sub
-        'SelectedMailsToFile SelectedMails
-    'End If
-    'Dim sl As String: sl = ParseSelectedMails(SelectedMails)
-    'Debug.Print sl
-    'Exit Sub
-    'Dim FileNames     As Collection: Set FileNames = ParseSelectedMails(SelectedMails) 'GetProperFileNames(SelectedMails)
     Dim FileNames()   As String: Call ParseSelectedMails(SelectedMails, FileNames())    'GetProperFileNames(SelectedMails)
     Dim FNm           As String:               FNm = FileNames(1)
     
-    'Debug.Print Fnm
-    
-    'OK dann eben keinen SaveFileDialog
-    'Mist wie heißt der SaveFileDialog unter .Net?
-    'Dim SFD As New SaveFileDialog
-    'application.
-    'SFD.Filter = "*.msg"
-    'SFD.FileName = FNm & ".msg"
-    'If SFD.ShowDialog() = vbOK Then
-        'Debug.Print SFD.FileName
     Dim tmpFn As String
     Dim c As Long
-        Dim path As String
+        Dim Path As String
         
-        'ACHTUNG !!!! HIER IMMER DEN PFAD ANPASSEN!!!!
-        path = "\\BIBFS05\Daten\daten\Engineering\FTZ-E\KUNDEN\TenneT\"
-        path = path & "380kV-Ltg. Süderdonn-Heide West, LH-13-0319\"
-        'path = "\\bibfs05\Daten\daten\Engineering\FTZ-E\KUNDEN\NetzeBW\110kV-Ltg. A0408 Probabilistische Überrechnung\Schriftverkehr\"
-        
-        'path = path & "380kV-Ltg. Audorf-Flensburg\Schriftverkehr\Pfahlgründungen\Posteingang\"
-        'path = path & "380kV-Ltg. Audorf-Flensburg\Schriftverkehr\Pfahlgründungen\Gesendet\"
-        'path = path & "Schriftverkehr\Pfahlgründungen\2018\Q3\Posteingang\08\"
-        path = path & "Schriftverkehr\Pfahlgründungen\2018\Q3\Gesendet\07\"
+        'ACHTUNG !!!! HIER DEN PFAD ANPASSEN!!!!
+        Path = "\\DiesistmeinPfad\DatenPfad\MeineFirma\Kunden\MeinKunde\"
+        Path = Path & "MeinProjektPfad\"
+        Path = Path & "Schriftverkehr\Projekt\Jahr\Quartal\Gesendet\Monat\"
         Dim eml As Outlook.MailItem
         Dim i As Long
         For i = 1 To SelectedMails.Count
@@ -73,30 +36,19 @@ Try: On Error GoTo Catch
             FNm = FileNames(i)
             If Len(FNm) > 77 Then
                 FNm = Trim(Left(FNm, 77))
-                'Debug.Print FNm
             End If
-            'FNm = path & FNm & ".msg"
-            tmpFn = path & FNm & ".msg"
+            tmpFn = Path & FNm & ".msg"
             If FileExists(tmpFn) Then
                 Do Until Not FileExists(tmpFn)
                     c = c + 1
-                    tmpFn = path & FNm & "(" & CStr(c) & ")" & ".msg"
+                    tmpFn = Path & FNm & "(" & CStr(c) & ")" & ".msg"
                 Loop
             Else
                 c = 0
             End If
             FNm = tmpFn
-            'FNm = path & FNm
-            'Debug.Print FNm
             SaveEmail eml, FNm
         Next
-    'Else
-    '    Debug.Print "kein Dialog oder Abbrechen?"
-    'End If
-    'Dim Fld As Outlook.Folder
-    'fld.
-    'CurrMail.SaveAs FNm
-
     'einen Speichern unter Dialog anzeigen. den Dateiname erzeugen
     Exit Sub
 Catch:
@@ -117,7 +69,7 @@ Public Sub ParseSelectedMails(SelectedMails As Collection, ByRef list_fn_out() A
 'Public Function ParseSelectedMails(SelectedMails As Collection) As String 'Of Outlook.MailItem
     Dim s As String
     Dim sl As String
-    Dim list As New Collection
+    Dim List As New Collection
     Dim Email As Outlook.MailItem
     Dim ec As FirmContact
     Dim sea As String
@@ -163,7 +115,7 @@ Public Sub ParseSelectedMails(SelectedMails As Collection, ByRef list_fn_out() A
     'Set ParseSelectedMails = list
 End Sub
 
-Public Sub SelectedMailsToFile(col As Collection) 'Of Outlook.MailItem
+Public Sub SelectedMailsToFile(Col As Collection) 'Of Outlook.MailItem
     Dim Email As Outlook.MailItem
     Dim FNr As Integer: FNr = FreeFile
     Dim FNm As String: FNm = "C:\"
@@ -181,13 +133,8 @@ Public Function GetSelectedMails() As Collection 'Of Outlook.MailItem
         Set GetSelectedMails = New Collection
         Dim sel As Selection: Set sel = Explorer.Selection
         On Error Resume Next
-        'Debug.Print Explorer.Selection.Count
-        'Dim i As Long
-        'OK jetzt nicht meher über For Each, das war ja Mist,
-        'vielleicht funzt es jetzt besser?
         Dim obj As Object
         For i = 1 To sel.Count
-        'For i = 1 To Explorer.Selection.Count ' m In Explorer.Selection.
             Set obj = sel.Item(i)
             If TypeOf obj Is Outlook.MailItem Then
                 Set m = obj
@@ -256,77 +203,19 @@ Try: On Error Resume Next
     'Debug.Print s
 End Function
 
-Public Function RemoveChars(chars As String, Value As String) As String
+Public Function RemoveChars(Chars As String, Value As String) As String
     Dim s As String: s = Value
     Dim c As String
     Dim i As Long
-    For i = 1 To Len(chars)
-        c = Mid(chars, i, 1)
+    For i = 1 To Len(Chars)
+        c = Mid(Chars, i, 1)
         If InStr(1, s, c) Then
             s = Replace(s, c, " ")
         End If
     Next
     RemoveChars = s
 End Function
-'Public Function GetName(aName As String, Optional FirmName As String, Optional Emailaddress As String) As String
-'    If Len(aName) = 0 Then Exit Function
-'    Dim sep As String: sep = IIf(InStr(1, aName, ","), ",", IIf(InStr(1, aName, " "), " ", " "))
-'    Dim sa() As String: sa = Split(aName, sep)
-'    Dim s    As String:  s = Replace(Trim(sa(0)), "'", "")
-'    Select Case LCase(s)
-'    Case "meyer", "haller", "winderlich", "oldenburg", "glöggler", "karahasanovic", "beitz", "emmenlauer", "bornemann", "vukobrat", "krepp", "besier", "wohlhueter", "isy-support", "materne", "gaertner"
-'                        s = "EDE"
-'    Case "mauracher", "rapp", "mauracher bernhard", "isola"
-'                        s = "EAT"
-'    Case "linz", "olaf.linz@tennet.eu", "rohrmoser", "buerger", "hansen", "zabold", "oesterlink", "boettger", "weike"
-'                        s = "TEN"
-'    Case "eggers":      s = "OMX"
-'    Case "frenzel", "ventker"
-'                        s = "SPZ"
-'    Case "janssen", "janßen"
-'                        s = "IBJ"
-'    Case "janus", "richwien"
-'                        s = "RiP"
-'    Case "vierkant", "scholz kerstin"
-'                        s = "BuP"
-'    Case "balázsovics", "schüttné balázsovics mónika", "schüttné balázsovics", "schüttné", "rauch lubos", "katona zoltán"
-'                        s = "OVI"
-'    Case "jurkova katerina"
-'                        s = "EGE"
-'    Case Else
-'        If Len(FirmName) Then
-'            Select Case FirmName
-'            Case "TenneT"
-'                        s = "TEN"
-'            Case "EQOS Deutschland GmbH"
-'                        s = "EDE"
-'            Case "EQOS Austria GmbH"
-'                        s = "EAT"
-'            Case "Spitzke SE"
-'                        s = "SPZ"
-'            Case Else
-'
-'            End Select
-'        Else
-'            's bleibt so
-'        End If
-'    End Select
-'
-'    GetName = s
-'End Function
 
-'Public Function GetShortCompany(ByVal Emailaddress As String) As String
-'    Emailaddress = Trim(LCase(Emailaddress))
-'    Dim scn As String
-'    Select Case True
-'    Case CBool(InStr(1, Emailaddress, "@tennet.eu") > 1)
-'        scn = "TEN"
-'    Case CBool(InStr(1, Emailaddress, "@eqos-energie.com"))
-'        scn = "EDE"
-'    Case CBool(InStr(1, Emailaddress, "@eqos-energie.com"))
-'
-'    End Select
-'End Function
 Public Function GetProperFileNames(Mails As Collection) As Collection 'Of string 'Collection Of Outlook.MailItem
     Set GetProperFileNames = New Collection
     Dim Email As Outlook.MailItem
@@ -348,9 +237,10 @@ Public Function GetProperFileNames(Mails As Collection) As Collection 'Of string
         GetProperFileNames.Add FNm
     Next
 End Function
-Public Function Contains(col As Collection, Item As String) As Boolean
+
+Public Function Contains(Col As Collection, Item As String) As Boolean
     On Error Resume Next
-    If IsEmpty(col(Item)) Then: 'DoNothing
+    If IsEmpty(Col(Item)) Then: 'DoNothing
     Contains = (Err.Number = 0)
     On Error GoTo 0
 End Function

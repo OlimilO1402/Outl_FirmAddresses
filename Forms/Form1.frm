@@ -17,3 +17,10 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+Private Sub Form_Load()
+    Module1.Test
+    Module1.Telefonliste
+    
+    Module2.AusgewaehlteMailsInOrdnerKopieren
+    
+End Sub

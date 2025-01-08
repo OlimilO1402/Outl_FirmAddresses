@@ -12,13 +12,13 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
-'Klasse repr√§sentiert eine allgemeine Firma, die ebenso "Teil" aber ein externer Teil der FIRMA ist, und allgemein zu Kunden oder Subunternehmen z√§hlt
-'Klasse repr√§sentiert die Firma eines Kunden oder Subunternehmens der FIRMA. Offices werden hier nicht gebraucht
+'Klasse repr‰sentiert eine allgemeine Firma, die ebenso "Teil" aber ein externer Teil der FIRMA ist, und allgemein zu Kunden oder Subunternehmen z‰hlt
+'Klasse repr‰sentiert die Firma eines Kunden oder Subunternehmens der FIRMA. Offices werden hier nicht gebraucht
 Implements FirmCompany
-Public pfn      As String
+Public PFN      As String
 Public Name     As String
 Public m_Abbrev As String
-Public Contacts As list 'Of FirmContact
+Public Contacts As List 'Of FirmContact
 
 Friend Sub New_(aName As String) ', aAbbrev As String)
     Me.Name = aName
@@ -31,44 +31,19 @@ End Sub
 Private Function GetAbbrev() As String
     Dim s As String
     If Len(m_Abbrev) = 0 Then
-        If NameContains("tennet") Then
-            s = "TEN"
-        ElseIf NameContains("terracon") Then
-            s = "TRC"
-        ElseIf NameContains("strukton") Then
-            s = "STR"
-        ElseIf NameContains("lincon") Then
-            s = "LIN"
-        ElseIf NameContains("spitzke") Then
-            s = "SPZ"
-        ElseIf NameContains("ege") Then
-            s = "EGE"
-        ElseIf NameContains("ovit") Then
-            s = "OVI"
-        ElseIf NameContains("transnetbw") Then
-            s = "TRA"
-        ElseIf NameContains("netzebw") Then
-            s = "NET"
-        ElseIf NameContains("omexom") Then
-            s = "OMX"
-        ElseIf NameContains("janssen") Or NameContains("jan√üen") Then
-            s = "IBJ"
-        ElseIf NameContains("rizkallah") Then
-            s = "RiP"
-        ElseIf NameContains("buchholz") Then
-            s = "BuP"
-        ElseIf NameContains("dc-software") Then
-            s = "DCS"
-        ElseIf NameContains("dmt ingenieure") Then
-            s = "DMT"
-        ElseIf NameContains("sag") Then
-            s = "SAG"
-        ElseIf NameContains("spie") Then
-            s = "SAG"
-        ElseIf NameContains("imp") Then
-            s = "IMP"
-        ElseIf NameContains("franki") Then
-            s = "FRA"
+        If NameContains("Firma1") Then
+            s = "Fi1"
+        ElseIf NameContains("Firma2") Then
+            s = "Fi2"
+        ElseIf NameContains("Firma3") Then
+            s = "Fi3"
+        ElseIf NameContains("Firma4") Then
+            s = "Fi4"
+        ElseIf NameContains("Firma5") Then
+            s = "Fi5"
+        '
+        '...
+        '
         End If
     End If
     GetAbbrev = s
@@ -88,7 +63,7 @@ Private Property Get FirmCompany_Abbrev() As String
     FirmCompany_Abbrev = Me.Abbrev
 End Property
 
-Private Property Set FirmCompany_Contacts(ByVal Value As list) 'FirmContacts)
+Private Property Set FirmCompany_Contacts(ByVal Value As List) 'FirmContacts)
     Set Me.Contacts = Value
 End Property
 Private Property Get FirmCompany_Contacts() As FirmContacts
@@ -106,7 +81,7 @@ Private Property Get FirmCompany_Name() As String
     FirmCompany_Name = Me.Name
 End Property
 
-Private Property Set FirmCompany_Offices(ByVal Value As list) 'RHS As FirmOffices)
+Private Property Set FirmCompany_Offices(ByVal Value As List) 'RHS As FirmOffices)
     '
 End Property
 Private Property Get FirmCompany_Offices() As FirmOffices

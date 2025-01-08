@@ -35,7 +35,7 @@ Public Property Get Abbrev() As String
         If InStr(1, nam, "green") > 0 Then s = s & "G"
         If InStr(1, nam, "energ") > 0 Then s = s & "E"
     End If
-    If InStr(1, nam, "Ã¶ster") > 0 Then s = s & "AT"
+    If InStr(1, nam, "öster") > 0 Then s = s & "AT"
     If InStr(1, nam, "deuts") > 0 Then s = s & "DE"
     If InStr(1, nam, "holdi") > 0 Then s = s & "HO"
     If InStr(1, nam, "ceska") > 0 Then s = s & "CZ"
@@ -50,19 +50,19 @@ Public Property Get Key() As String
     Key = Me.Abbrev
 End Property
 
-Friend Property Get pfn() As String
-    pfn = m_PFN
+Friend Property Get PFN() As String
+    PFN = m_PFN
 End Property
 
 Friend Sub ToFile(aFileName As String)
     m_PFN = aFileName
 Try: On Error GoTo Finally
     Dim FNr As Integer: FNr = FreeFile
-    Open pfn For Append As FNr 'Access Write
+    Open PFN For Append As FNr 'Access Write
     Print #FNr, Me.Key & vbTab & Me.Name & vbCrLf
     Print #FNr, "Name, Vorname" & vbTab & "Tel" & vbTab & "Mobil" & vbCrLf
     Dim offi As FirmOffice
-    Offices.ToFilesAppend FNr
+    MFirmHelper.Offices_ToFilesAppend Offices, FNr
 '    For Each offi In m_OfficeList
 '        offi.ToFileAppend FNr
 '    Next

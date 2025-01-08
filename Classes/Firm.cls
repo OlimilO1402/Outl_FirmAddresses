@@ -54,17 +54,17 @@ End Sub
 
 Public Sub Parse(addresses As Outlook.AddressList)
     Dim address As Outlook.AddressEntry
-    Dim eCmp    As FirmCompany 'EDE, EAT,
-    Dim eOff    As FirmOffice  'Biberach, Schwelm, Linz, . . .
-    Dim ectc    As FirmContact 'Meyer, Mauracher, . . .
-    Dim cmpn As String 'Eqos Deutschland, Eqos Österreich, Alpine Energie, . . .
-    Dim sopr As String 'Bayern, Baden-Württemberg, Oberösterreich, . . .
-    Dim oloc As String 'Biberach, Schwelm, Linz, . . .
-    Dim FNam As String 'Oliver, Bernhard, Mathias
-    Dim LNam As String 'Meyer, Mauracher, Winderlich
-    Dim BTel As String 'stationäres Telefon, Business-Tel, Eqos-Nummer
-    Dim TMob As String 'Mobiles Telefon
-    Dim Emal As String 'Emailadresse
+    Dim eCmp    As FirmCompany
+    Dim eOff    As FirmOffice
+    Dim ectc    As FirmContact
+    Dim cmpn As String
+    Dim sopr As String
+    Dim oloc As String
+    Dim FNam As String
+    Dim LNam As String
+    Dim BTel As String
+    Dim TMob As String
+    Dim Emal As String
     Dim aeut As OlAddressEntryUserType
     Dim eu  As ExchangeUser
     Dim edl As ExchangeDistributionList
@@ -72,11 +72,11 @@ Public Sub Parse(addresses As Outlook.AddressList)
         Set eu = address.GetExchangeUser
         If Not eu Is Nothing Then
             With eu
-                cmpn = .CompanyName     'Eqos Deutschland, Eqos Österreich, Alpine Energie, . . .
-                sopr = .StateOrProvince 'Bayern, Baden-Württemberg, Oberösterreich, . . .
-                oloc = .OfficeLocation  'Biberach, Schwelm, Linz, . . .
-                FNam = .FirstName       'Oliver, Bernhard, Mathias
-                LNam = .LastName        'Meyer, Mauracher, Winderlich
+                cmpn = .CompanyName
+                sopr = .StateOrProvince
+                oloc = .OfficeLocation
+                FNam = .FirstName
+                LNam = .LastName
                 BTel = .BusinessTelephoneNumber
                 TMob = .MobileTelephoneNumber
                 Emal = .PrimarySmtpAddress
@@ -116,22 +116,22 @@ Public Sub ToFiles(Env_Userprofile As String)
     Path = Env_Userprofile & "\documents\TelefonListen\" & d & "\"
     If Not DirExists(Path) Then MkDir Path
     Prepfn = "TelefonListe_" & d & "_"
-    Dim pfn As String: pfn = Path & Prepfn
-    Me.Offices.ToFilesBinary pfn
-    Me.Companys.ToFiles pfn
+    Dim PFN As String: PFN = Path & Prepfn
+    MFirmHelper.Offices_ToFilesBinary Offices, PFN
+    MFirmHelper.Companys_ToFiles Companys, PFN
 End Sub
 
 Public Sub ToExcel()
     'entweder so
     If Not DirExists(Path) Then MsgBox "Der Pfad existiert nicht:" & vbCrLf & Path
-    Dim pfns As String: pfns = Offices.ToPFNs
+    Dim pfns As String: pfns = MFirmHelper.Offices_ToPFNs(Offices)
     Shell "Excel.exe " & pfns, vbNormalFocus
     'oder so:
-    '* Excel instanz Öffnen
+    '* Excel Instanz �ffnen
     Dim Exl As New Excel.Application
     Dim wkb As Workbook: Set wkb = Exl.Workbooks.Open(Path & "\TelefonListe.xlsx")
     
     '* eine neue Datei / Workbook anlegen
-    '* für jeden Text ein neues Worksheet anlegen und Text reinkopieren
+    '* f�r jeden Text ein neues Worksheet anlegen und Text reinkopieren
     
 End Sub
