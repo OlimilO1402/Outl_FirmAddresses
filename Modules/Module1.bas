@@ -37,8 +37,8 @@ Sub Telefonliste()
     End If
 End Sub
 
-Public Function Str0(s As String, ByVal length As Byte) As String
-    Dim d As Long: d = length - Len(s)
+Public Function Str0(s As String, ByVal Length As Byte) As String
+    Dim d As Long: d = Length - Len(s)
     If d > 0 Then Str0 = String(d, "0") & s Else Str0 = s
 End Function
 
@@ -46,26 +46,26 @@ Public Function ValidDir(p As String) As String
     ValidDir = ReplaceAll(p, "\/:*?""<>|", "_")
 End Function
 
-Public Function ReplaceAll(s As String, find As String, rep As String) As String
+Public Function ReplaceAll(s As String, Find As String, rep As String) As String
     'ersetzt alle Vorkommen von "find" in "s" durch "rep"
     If Len(s) = 0 Then Exit Function
-    If Len(find) = 0 Then Exit Function
+    If Len(Find) = 0 Then Exit Function
     ReplaceAll = s
     Dim i As Long
     Dim c As String
-    For i = 1 To Len(find)
-        c = Mid(find, i, 1)
+    For i = 1 To Len(Find)
+        c = Mid(Find, i, 1)
         ReplaceAll = Replace(ReplaceAll, c, rep)
     Next
 End Function
 
-Public Function RemoveChars(chars As String, Value As String) As String
+Public Function RemoveChars(Chars As String, Value As String) As String
     'löscht alle Vorkommen von chars in Value
     Dim s As String: s = Value
     Dim c As String
     Dim i As Long
-    For i = 1 To Len(chars)
-        c = Mid(chars, i, 1)
+    For i = 1 To Len(Chars)
+        c = Mid(Chars, i, 1)
         If InStr(1, s, c) Then
             s = Replace(s, c, " ")
         End If

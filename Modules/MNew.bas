@@ -45,12 +45,14 @@ Public Function List(Of_T As EDataType, _
                      Optional ByVal GrowRate As Single = 2, _
                      Optional ByVal GrowSize As Long = 0) As List
     Set List = New List: List.New_ Of_T, ArrColStrTypList, IsHashed, Capacity, GrowRate, GrowSize
+    'https://github.com/OlimilO1402/List_GenericNLinq/blob/main/Classes/List.cls
 End Function
 
 Public Function PathFileName(ByVal aPathFileName As String, _
                     Optional ByVal aFileName As String, _
                     Optional ByVal aExt As String) As PathFileName
     Set PathFileName = New PathFileName: PathFileName.New_ aPathFileName, aFileName, aExt
+    'https://github.com/OlimilO1402/IO_PathFileName/blob/main/Classes/PathFileName.cls
 End Function
 
 

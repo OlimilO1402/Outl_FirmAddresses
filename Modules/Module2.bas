@@ -115,7 +115,7 @@ Public Sub ParseSelectedMails(SelectedMails As Collection, ByRef list_fn_out() A
     'Set ParseSelectedMails = list
 End Sub
 
-Public Sub SelectedMailsToFile(Col As Collection) 'Of Outlook.MailItem
+Public Sub SelectedMailsToFile(SelectedMails As Collection) 'Of Outlook.MailItem
     Dim Email As Outlook.MailItem
     Dim FNr As Integer: FNr = FreeFile
     Dim FNm As String: FNm = "C:\"
@@ -225,9 +225,9 @@ Public Function GetProperFileNames(Mails As Collection) As Collection 'Of string
         Dim FNm As String: FNm = GetProperFileName(Email)
         'so jetzt noch überprüfen ob evtl gleiche Dateinamen drin,
         'wenn ja dann nochmal Dateinamen, diesmal mit Zeitangabe
-        If Contains(GetProperFileNames, FNm) Then
+        If Col_Contains(GetProperFileNames, FNm) Then
             FNm = GetProperFileName(Email, True)
-            If Contains(GetProperFileNames, FNm) Then
+            If Col_Contains(GetProperFileNames, FNm) Then
                 FNm = FNm & "(1)"
                 'so und jetzt für sämtliche anderen auch!
                 'd.h. erst mal sämtliche gleichen Dateinamen herausfinden.
@@ -238,10 +238,10 @@ Public Function GetProperFileNames(Mails As Collection) As Collection 'Of string
     Next
 End Function
 
-Public Function Contains(Col As Collection, Item As String) As Boolean
-    On Error Resume Next
-    If IsEmpty(Col(Item)) Then: 'DoNothing
-    Contains = (Err.Number = 0)
-    On Error GoTo 0
-End Function
+'Public Function Contains(Col As Collection, Item As String) As Boolean
+'    On Error Resume Next
+'    If IsEmpty(Col(Item)) Then: 'DoNothing
+'    Contains = (Err.Number = 0)
+'    On Error GoTo 0
+'End Function
 
